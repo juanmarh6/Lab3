@@ -96,7 +96,14 @@ public class Concesionario extends Comercio{
         if (R.length < 1)
             R = new VehículoParaReparar[10];
         for (int i = 0; i < R.length; i++){
-            if (R[i] == null) {
+            if (R[i] != null && R[i].getPrioridad() > cocher.getPrioridad()) {
+                for (int j = R.length-1; j > i; j--){
+                    R[j] = R[j-1];
+                }
+                R[i] = cocher;
+                return;
+            }
+            else if (R[i] == null){
                 R[i] = cocher;
                 return;
             }
@@ -104,7 +111,15 @@ public class Concesionario extends Comercio{
         VehículoParaReparar [] R2 = new VehículoParaReparar[2 * R.length];
         for (int j = 0; j < R.length; j++)
             R2[j] = R[j];
-        R2[R.length + 1] = cocher;
+        for (int i = 0; i < R.length; i++){
+            if (R2[i].getPrioridad() > cocher.getPrioridad()){
+                for (int j = R.length; j > i; j++)
+                    R2[j] = R[j-1];
+                R2[i] = cocher;
+            }
+            else if (R2[i] == null)
+                R2[i] = cocher;
+        }
         R = R2.clone();
     }
 
